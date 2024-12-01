@@ -59,9 +59,9 @@ interface TeamFormProps {
 
 // Tipo para el estado del formulario completo
 interface FormState {
-    player1: PlayerFormData | null;
-    player2: PlayerFormData | null;
-    team: TeamFormData | null;
+    player1: PlayerFormData | undefined;
+    player2: PlayerFormData | undefined;
+    team: TeamFormData | undefined;
 }
 
 // Componente para el formulario de jugador
@@ -320,23 +320,43 @@ const TeamForm = ({ onSubmit, onBack, initialData }: TeamFormProps) => {
 export default function RegisterPage() {
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState<FormState>({
-        player1: null,
-        player2: null,
-        team: null,
+        player1: undefined,
+        player2: undefined,
+        team: undefined,
     });
 
+    const handlePlayer1Submit = (data: PlayerFormData) => {
+        setFormData((prev) => ({
+            ...prev,
+            player1: data,
+        }));
+        setStep(2);
+    };
+
+    const handlePlayer2Submit = (data: PlayerFormData) => {
+        setFormData((prev) => ({
+            ...prev,
+            player2: data,
+        }));
+        setStep(3);
+    };
+
     const handleFinalSubmit = (teamData: TeamFormData) => {
-        const finalData = {
+        const finalData: FormState = {
             ...formData,
             team: teamData,
         };
-        console.log("Datos finales:", finalData);
-        // Aquí iría la lógica para enviar los datos
+
+        if (finalData.player1 && finalData.player2 && finalData.team) {
+            console.log("Datos finales:", finalData);
+            // Aquí iría la lógica para enviar los datos
+            alert("Inscripcion realizada correctamente");
+        }
     };
 
     return (
         <div className="min-h-[85vh] flex flex-col justify-center">
-            <div className="container mx-auto px-4 py-8 md:pt-28">
+            <div className="container mx-auto px-4 py-8 md:pt-36">
                 <div className="max-w-[500px] mx-auto">
                     <div className="mb-8">
                         <div className="hidden md:block">
@@ -349,7 +369,7 @@ export default function RegisterPage() {
                                         <div
                                             className={`
                                             w-8 h-8 rounded-full flex items-center justify-center
-                                            transition-colors duration-200 z-10 bg-white
+                                            transition-colors duration-200 z-10
                                             ${
                                                 step >= index
                                                     ? "bg-blue-600 text-white"
@@ -388,13 +408,7 @@ export default function RegisterPage() {
                                 <PlayerForm
                                     key="player1"
                                     title="Jugador 1"
-                                    onSubmit={(data) => {
-                                        setFormData((prev) => ({
-                                            ...prev,
-                                            player1: data,
-                                        }));
-                                        setStep(2);
-                                    }}
+                                    onSubmit={handlePlayer1Submit}
                                     initialData={formData.player1}
                                 />
                             )}
@@ -402,13 +416,7 @@ export default function RegisterPage() {
                                 <PlayerForm
                                     key="player2"
                                     title="Jugador 2"
-                                    onSubmit={(data) => {
-                                        setFormData((prev) => ({
-                                            ...prev,
-                                            player2: data,
-                                        }));
-                                        setStep(3);
-                                    }}
+                                    onSubmit={handlePlayer2Submit}
                                     onBack={() => setStep(1)}
                                     initialData={formData.player2}
                                 />
