@@ -25,7 +25,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
-// Schemas para cada paso
+// Definir el schema de Zod y crear tipos a partir de él
 const playerSchema = z.object({
     fullName: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
     dni: z.string().min(7, "DNI inválido"),
@@ -39,9 +39,39 @@ const teamSchema = z.object({
     paymentNumber: z.string().min(1, "Ingresa el número de operación"),
 });
 
+// Crear tipos a partir de los schemas
+type PlayerFormData = z.infer<typeof playerSchema>;
+type TeamFormData = z.infer<typeof teamSchema>;
+
+// Interfaces para los props de los componentes
+interface PlayerFormProps {
+    title: string;
+    onSubmit: (data: PlayerFormData) => void;
+    onBack?: () => void;
+    initialData?: PlayerFormData;
+}
+
+interface TeamFormProps {
+    onSubmit: (data: TeamFormData) => void;
+    onBack: () => void;
+    initialData?: TeamFormData;
+}
+
+// Tipo para el estado del formulario completo
+interface FormState {
+    player1: PlayerFormData | null;
+    player2: PlayerFormData | null;
+    team: TeamFormData | null;
+}
+
 // Componente para el formulario de jugador
-const PlayerForm = ({ title, onSubmit, onBack, initialData }) => {
-    const form = useForm({
+const PlayerForm = ({
+    title,
+    onSubmit,
+    onBack,
+    initialData,
+}: PlayerFormProps) => {
+    const form = useForm<PlayerFormData>({
         resolver: zodResolver(playerSchema),
         defaultValues: initialData || {
             fullName: "",
@@ -171,8 +201,8 @@ const PlayerForm = ({ title, onSubmit, onBack, initialData }) => {
 };
 
 // Componente para el formulario del equipo
-const TeamForm = ({ onSubmit, onBack, initialData }) => {
-    const form = useForm({
+const TeamForm = ({ onSubmit, onBack, initialData }: TeamFormProps) => {
+    const form = useForm<TeamFormData>({
         resolver: zodResolver(teamSchema),
         defaultValues: initialData || {
             category: "",
@@ -289,13 +319,13 @@ const TeamForm = ({ onSubmit, onBack, initialData }) => {
 
 export default function RegisterPage() {
     const [step, setStep] = useState(1);
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<FormState>({
         player1: null,
         player2: null,
         team: null,
     });
 
-    const handleFinalSubmit = (teamData) => {
+    const handleFinalSubmit = (teamData: TeamFormData) => {
         const finalData = {
             ...formData,
             team: teamData,
