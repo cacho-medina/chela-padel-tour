@@ -49,6 +49,7 @@ interface PlayerFormProps {
     onSubmit: (data: PlayerFormData) => void;
     onBack?: () => void;
     initialData?: PlayerFormData;
+    disabledPosition?: string;
 }
 
 interface TeamFormProps {
@@ -70,6 +71,7 @@ const PlayerForm = ({
     onSubmit,
     onBack,
     initialData,
+    disabledPosition,
 }: PlayerFormProps) => {
     const form = useForm<PlayerFormData>({
         resolver: zodResolver(playerSchema),
@@ -147,10 +149,20 @@ const PlayerForm = ({
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
-                                        <SelectItem value="reves">
+                                        <SelectItem
+                                            value="reves"
+                                            disabled={
+                                                disabledPosition === "reves"
+                                            }
+                                        >
                                             Revés
                                         </SelectItem>
-                                        <SelectItem value="drive">
+                                        <SelectItem
+                                            value="drive"
+                                            disabled={
+                                                disabledPosition === "drive"
+                                            }
+                                        >
                                             Drive
                                         </SelectItem>
                                     </SelectContent>
@@ -355,10 +367,13 @@ export default function RegisterPage() {
     };
 
     return (
-        <div className="min-h-[85vh] flex flex-col justify-center">
-            <div className="container mx-auto px-4 py-8 md:pt-36">
+        <div className="h-screen flex flex-col items-center justify-center">
+            <div className="container mx-auto px-4 py-8">
                 <div className="max-w-[500px] mx-auto">
                     <div className="mb-8">
+                        <div className="md:hidden bg-blue-padel text-white font-semibold rounded-full size-12 flex items-center justify-center mx-auto">
+                            <p>{step}</p>
+                        </div>
                         <div className="hidden md:block">
                             <div className="flex items-center w-full">
                                 {[1, 2, 3].map((index) => (
@@ -368,7 +383,7 @@ export default function RegisterPage() {
                                     >
                                         <div
                                             className={`
-                                            w-8 h-8 rounded-full flex items-center justify-center
+                                            w-8 h-8 rounded-full flex items-center justify-center md:shadow-md
                                             transition-colors duration-200 z-10
                                             ${
                                                 step >= index
@@ -401,7 +416,7 @@ export default function RegisterPage() {
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="bg-white rounded-2xl shadow-lg p-4 md:p-8"
+                        className="sm:bg-white rounded-2xl sm:shadow-lg p-4 md:p-8"
                     >
                         <AnimatePresence mode="wait">
                             {step === 1 && (
@@ -419,6 +434,9 @@ export default function RegisterPage() {
                                     onSubmit={handlePlayer2Submit}
                                     onBack={() => setStep(1)}
                                     initialData={formData.player2}
+                                    disabledPosition={
+                                        formData.player1?.position
+                                    }
                                 />
                             )}
                             {step === 3 && (

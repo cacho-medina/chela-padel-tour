@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 export default function Footer() {
     return (
         <motion.footer
-            className="bg-gray-800 text-white py-4 text-center"
+            className="bg-gray-200 text-slate-800 py-3 text-center text-sm"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}

@@ -11,7 +11,7 @@ export default function Header() {
     const [isScrolled, setIsScrolled] = useState(false);
     const { scrollY } = useScroll();
     const pathname = usePathname();
-    const isRegisterPage = pathname === "/register";
+    const isRegisterPage = pathname === "/registro";
 
     useMotionValueEvent(scrollY, "change", (latest) => {
         const scrolled = latest > 50;
@@ -43,8 +43,9 @@ export default function Header() {
                         <Image
                             src="/images/logo.png"
                             alt="Chela Padel Tour"
-                            width={100}
-                            height={100}
+                            width={60}
+                            height={60}
+                            className="md:size-16"
                         />
                     </motion.h1>
                 </Link>
@@ -129,7 +130,7 @@ export default function Header() {
                                 : "hover:outline-green-padel"
                         }`}
                     >
-                        <Link href="/register" className="text-blue-padel">
+                        <Link href="/registro" className="text-blue-padel">
                             Inscribite aqui
                         </Link>
                     </Button>

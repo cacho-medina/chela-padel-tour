@@ -46,7 +46,7 @@ export default function Home() {
                             <div className="flex items-center justify-center">
                                 <Button variant="green" size="lg">
                                     <Link
-                                        href="/register"
+                                        href="/registro"
                                         className="text-blue-padel md:animate-pulse"
                                     >
                                         Inscribite aqui
@@ -307,11 +307,10 @@ export default function Home() {
                                     1
                                 </div>
                                 <h3 className="text-xl font-semibold mb-2">
-                                    Regístrate
+                                    Paga tu inscripción
                                 </h3>
                                 <p className="text-gray-400 text-center">
-                                    Completa el formulario de inscripción con
-                                    tus datos
+                                    Realiza el pago de $20.000 por equipo
                                 </p>
                             </motion.div>
 
@@ -325,10 +324,11 @@ export default function Home() {
                                     2
                                 </div>
                                 <h3 className="text-xl font-semibold mb-2">
-                                    Paga tu inscripción
+                                    Regístrate
                                 </h3>
                                 <p className="text-gray-400 text-center">
-                                    Realiza el pago de $20.000 por equipo
+                                    Completa el formulario de inscripción los
+                                    datos del equipo y el pago
                                 </p>
                             </motion.div>
 
@@ -359,7 +359,7 @@ export default function Home() {
                             >
                                 <Button variant="green" size="lg">
                                     <Link
-                                        href="/register"
+                                        href="/registro"
                                         className="text-blue-padel md:animate-pulse"
                                     >
                                         Inscribite aqui
@@ -493,7 +493,7 @@ export default function Home() {
                 }}
                 className="fixed bottom-6 right-6 z-50"
             >
-                <Link href="/register" className="block relative group">
+                <Link href="/registro" className="block relative group">
                     <motion.div
                         animate={{ rotate: 360 }}
                         transition={{
