@@ -24,6 +24,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import Alert from "@/components/common/Alert";
+import Error from "@/components/common/Error";
 
 // Definir el schema de Zod y crear tipos a partir de él
 const playerSchema = z.object({
@@ -36,7 +38,9 @@ const playerSchema = z.object({
 const teamSchema = z.object({
     category: z.string().min(1, "Selecciona una categoría"),
     additionalInfo: z.string().optional(),
-    paymentNumber: z.string().min(1, "Ingresa el número de operación"),
+    paymentNumber: z
+        .string()
+        .length(10, "El número de operación debe tener 10 dígitos"),
 });
 
 // Crear tipos a partir de los schemas
@@ -55,6 +59,7 @@ interface PlayerFormProps {
 interface TeamFormProps {
     onSubmit: (data: TeamFormData) => void;
     onBack: () => void;
+    isLoading: boolean;
     initialData?: TeamFormData;
 }
 
@@ -213,7 +218,12 @@ const PlayerForm = ({
 };
 
 // Componente para el formulario del equipo
-const TeamForm = ({ onSubmit, onBack, initialData }: TeamFormProps) => {
+const TeamForm = ({
+    onSubmit,
+    onBack,
+    isLoading,
+    initialData,
+}: TeamFormProps) => {
     const form = useForm<TeamFormData>({
         resolver: zodResolver(teamSchema),
         defaultValues: initialData || {
@@ -280,7 +290,7 @@ const TeamForm = ({ onSubmit, onBack, initialData }: TeamFormProps) => {
                                 <FormLabel>Información adicional</FormLabel>
                                 <FormControl>
                                     <Textarea
-                                        placeholder="Agrega cualquier información adicional que consideres relevante"
+                                        placeholder="Agrega los horarios disponibles para jugar, si tienen alguna restricción, etc."
                                         className="resize-none"
                                         {...field}
                                     />
@@ -319,7 +329,11 @@ const TeamForm = ({ onSubmit, onBack, initialData }: TeamFormProps) => {
                             <ArrowLeft className="w-4 h-4 mr-2" />
                             Anterior
                         </Button>
-                        <Button type="submit" className="flex-1">
+                        <Button
+                            type="submit"
+                            className="flex-1"
+                            disabled={isLoading}
+                        >
                             Finalizar inscripción
                         </Button>
                     </div>
@@ -331,11 +345,18 @@ const TeamForm = ({ onSubmit, onBack, initialData }: TeamFormProps) => {
 
 export default function RegisterPage() {
     const [step, setStep] = useState(1);
+    const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+    const [showErrorAlert, setShowErrorAlert] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState<FormState>({
         player1: undefined,
         player2: undefined,
         team: undefined,
     });
+
+    const handleCloseAlert = () => {
+        setShowSuccessAlert(false);
+    };
 
     const handlePlayer1Submit = (data: PlayerFormData) => {
         setFormData((prev) => ({
@@ -353,7 +374,7 @@ export default function RegisterPage() {
         setStep(3);
     };
 
-    const handleFinalSubmit = (teamData: TeamFormData) => {
+    const handleFinalSubmit = async (teamData: TeamFormData) => {
         const finalData: FormState = {
             ...formData,
             team: teamData,
@@ -362,7 +383,25 @@ export default function RegisterPage() {
         if (finalData.player1 && finalData.player2 && finalData.team) {
             console.log("Datos finales:", finalData);
             // Aquí iría la lógica para enviar los datos
-            alert("Inscripcion realizada correctamente");
+            try {
+                setIsLoading(true); // Estado de carga
+                const res = await fetch("/api/registro", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(finalData),
+                });
+                if (!res.ok) {
+                    setShowErrorAlert(true);
+                }
+                console.log(res);
+                setShowSuccessAlert(true);
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setIsLoading(false); // Finalizar estado de carga
+            }
         }
     };
 
@@ -407,10 +446,6 @@ export default function RegisterPage() {
                                 <div className="flex-1 text-center">Equipo</div>
                             </div>
                         </div>
-
-                        <div className="md:hidden">
-                            {/* ... código de la versión móvil ... */}
-                        </div>
                     </div>
 
                     <motion.div
@@ -445,10 +480,13 @@ export default function RegisterPage() {
                                     onSubmit={handleFinalSubmit}
                                     onBack={() => setStep(2)}
                                     initialData={formData.team}
+                                    isLoading={isLoading}
                                 />
                             )}
                         </AnimatePresence>
                     </motion.div>
+                    {showSuccessAlert && <Alert onClose={handleCloseAlert} />}
+                    {showErrorAlert && <Error onClose={handleCloseAlert} />}
                 </div>
             </div>
         </div>

@@ -1,10 +1,5 @@
 import mongoose, { Schema } from "mongoose";
 
-enum Position {
-    drive,
-    reves,
-}
-
 const playerSchema = new Schema({
     city: {
         type: String,
@@ -23,7 +18,7 @@ const playerSchema = new Schema({
         trim: true,
     },
     position: {
-        type: Position,
+        type: String,
         required: [true, "La posición es requerida"],
         trim: true,
     },
@@ -50,7 +45,7 @@ const teamSchema = new Schema(
                 required: [true, "La categoría es requerida"],
                 trim: true,
             },
-            paymentNro: {
+            paymentNumber: {
                 type: String,
                 required: [true, "El número de pago es requerido"],
                 trim: true,
@@ -69,10 +64,5 @@ teamSchema.pre("save", function (next) {
     }
     next();
 });
-
-// Índices para mejorar las búsquedas
-teamSchema.index({ "player1.dni": 1 });
-teamSchema.index({ "player2.dni": 1 });
-teamSchema.index({ "team.category": 1 });
 
 export const Team = mongoose.models.Team || mongoose.model("Team", teamSchema);

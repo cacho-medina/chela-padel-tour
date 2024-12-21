@@ -76,11 +76,11 @@ export default function Home() {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.1 }}
                         >
-                            <Card className="p-6 hover:shadow-lg transition-shadow">
+                            <Card className="p-6 hover:shadow-lg transition-shadow cursor-default">
                                 <div className="text-blue-600 mb-4">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
-                                        className="h-10 w-10"
+                                        className="size-7"
                                         fill="none"
                                         viewBox="0 0 24 24"
                                         stroke="currentColor"
@@ -93,10 +93,10 @@ export default function Home() {
                                         />
                                     </svg>
                                 </div>
-                                <h3 className="text-xl font-semibold mb-2">
+                                <h3 className="text-lg font-semibold mb-2">
                                     Fecha del Torneo
                                 </h3>
-                                <p className="text-gray-600">
+                                <p className="text-gray-600 text-sm">
                                     16 al 19 de Enero 2025
                                 </p>
                             </Card>
@@ -108,11 +108,11 @@ export default function Home() {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.2 }}
                         >
-                            <Card className="p-6 hover:shadow-lg transition-shadow">
+                            <Card className="p-6 hover:shadow-lg transition-shadow cursor-default">
                                 <div className="text-green-600 mb-4">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
-                                        className="h-10 w-10"
+                                        className="size-7"
                                         fill="none"
                                         viewBox="0 0 24 24"
                                         stroke="currentColor"
@@ -125,10 +125,10 @@ export default function Home() {
                                         />
                                     </svg>
                                 </div>
-                                <h3 className="text-xl font-semibold mb-2">
+                                <h3 className="text-lg font-semibold mb-2">
                                     Costo de Inscripción
                                 </h3>
-                                <p className="text-gray-600">
+                                <p className="text-gray-600 text-sm">
                                     $20.000 por pareja
                                 </p>
                             </Card>
@@ -140,11 +140,11 @@ export default function Home() {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.3 }}
                         >
-                            <Card className="p-6 hover:shadow-lg transition-shadow">
+                            <Card className="p-6 hover:shadow-lg transition-shadow cursor-default">
                                 <div className="text-red-600 mb-4">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
-                                        className="h-10 w-10"
+                                        className="size-7"
                                         fill="none"
                                         viewBox="0 0 24 24"
                                         stroke="currentColor"
@@ -157,10 +157,12 @@ export default function Home() {
                                         />
                                     </svg>
                                 </div>
-                                <h3 className="text-xl font-semibold mb-2">
+                                <h3 className="text-lg font-semibold mb-2">
                                     Fecha Límite de Inscripción
                                 </h3>
-                                <p className="text-gray-600">13 de Enero</p>
+                                <p className="text-gray-600 text-sm">
+                                    13 de Enero
+                                </p>
                             </Card>
                         </motion.div>
 
@@ -170,11 +172,11 @@ export default function Home() {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.4 }}
                         >
-                            <Card className="p-6 hover:shadow-lg transition-shadow">
+                            <Card className="p-6 hover:shadow-lg transition-shadow cursor-default">
                                 <div className="text-purple-600 mb-4">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
-                                        className="h-10 w-10"
+                                        className="size-7"
                                         fill="none"
                                         viewBox="0 0 24 24"
                                         stroke="currentColor"
@@ -193,10 +195,10 @@ export default function Home() {
                                         />
                                     </svg>
                                 </div>
-                                <h3 className="text-xl font-semibold mb-2">
+                                <h3 className="text-lg font-semibold mb-2">
                                     Lugar
                                 </h3>
-                                <p className="text-gray-600">
+                                <p className="text-gray-600 text-sm">
                                     Club Illanes Padel
                                 </p>
                             </Card>
@@ -207,7 +209,7 @@ export default function Home() {
                         initial={{ opacity: 0 }}
                         whileInView={{ opacity: 1 }}
                         transition={{ delay: 0.5 }}
-                        className="mt-16"
+                        className="mt-16 cursor-default"
                     >
                         <h3 className="text-3xl font-bold text-center mb-8">
                             Premios
@@ -254,7 +256,7 @@ export default function Home() {
                                 initial={{ opacity: 0, x: 50 }}
                                 whileInView={{ opacity: 1, x: 0 }}
                                 transition={{ delay: 0.3 }}
-                                className="h-full"
+                                className="h-full cursor-default"
                             >
                                 <Card className="p-6 border-t-4 border-slate-400 h-full">
                                     <div className="flex items-center gap-4 mb-4">

@@ -24,6 +24,8 @@ export async function POST(request: Request) {
         await connectDB();
         const body = await request.json();
 
+        console.log(body);
+
         // Validación básica de la estructura
         if (!body.player1 || !body.player2 || !body.team) {
             return NextResponse.json(
